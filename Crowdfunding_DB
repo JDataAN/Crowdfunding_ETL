@@ -1,0 +1,206 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.3
+-- Dumped by pg_dump version 16.3
+
+-- Started on 2024-07-05 02:27:26 CDT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 6 (class 2615 OID 16653)
+-- Name: Schema; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA "Schema";
+
+
+ALTER SCHEMA "Schema" OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 220 (class 1259 OID 16777)
+-- Name: Campaign; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Campaign" (
+    cf_id integer NOT NULL,
+    contact_id integer NOT NULL,
+    company_name text,
+    description text,
+    goal numeric,
+    pledged numeric,
+    outcome text,
+    backers_count integer,
+    country text,
+    currency text,
+    launch_date timestamp without time zone,
+    end_date timestamp without time zone,
+    staff_pick boolean,
+    spotlight boolean,
+    category text,
+    subcategory text,
+    category_id text,
+    subcategory_id text
+);
+
+
+ALTER TABLE public."Campaign" OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 16776)
+-- Name: Campaign_cf_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Campaign_cf_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public."Campaign_cf_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3616 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: Campaign_cf_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Campaign_cf_id_seq" OWNED BY public."Campaign".cf_id;
+
+
+--
+-- TOC entry 216 (class 1259 OID 16730)
+-- Name: Category; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Category" (
+    category_id text NOT NULL,
+    category text NOT NULL
+);
+
+
+ALTER TABLE public."Category" OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 16745)
+-- Name: Contacts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Contacts" (
+    contact_id integer NOT NULL,
+    first_name text,
+    last_name text,
+    email text
+);
+
+
+ALTER TABLE public."Contacts" OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 16738)
+-- Name: Subcategory; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Subcategory" (
+    subcategory_id text NOT NULL,
+    subcategory text NOT NULL
+);
+
+
+ALTER TABLE public."Subcategory" OWNER TO postgres;
+
+--
+-- TOC entry 3456 (class 2604 OID 16780)
+-- Name: Campaign cf_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Campaign" ALTER COLUMN cf_id SET DEFAULT nextval('public."Campaign_cf_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3464 (class 2606 OID 16784)
+-- Name: Campaign Campaign_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Campaign"
+    ADD CONSTRAINT "Campaign_pkey" PRIMARY KEY (cf_id);
+
+
+--
+-- TOC entry 3458 (class 2606 OID 16736)
+-- Name: Category Category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Category"
+    ADD CONSTRAINT "Category_pkey" PRIMARY KEY (category_id);
+
+
+--
+-- TOC entry 3462 (class 2606 OID 16751)
+-- Name: Contacts Contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Contacts"
+    ADD CONSTRAINT "Contacts_pkey" PRIMARY KEY (contact_id);
+
+
+--
+-- TOC entry 3460 (class 2606 OID 16744)
+-- Name: Subcategory Subcategory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Subcategory"
+    ADD CONSTRAINT "Subcategory_pkey" PRIMARY KEY (subcategory_id);
+
+
+--
+-- TOC entry 3465 (class 2606 OID 16790)
+-- Name: Campaign category_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Campaign"
+    ADD CONSTRAINT category_id FOREIGN KEY (category_id) REFERENCES public."Category"(category_id);
+
+
+--
+-- TOC entry 3466 (class 2606 OID 16785)
+-- Name: Campaign contact_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Campaign"
+    ADD CONSTRAINT contact_id FOREIGN KEY (contact_id) REFERENCES public."Contacts"(contact_id);
+
+
+--
+-- TOC entry 3467 (class 2606 OID 16795)
+-- Name: Campaign subcategory_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Campaign"
+    ADD CONSTRAINT subcategory_id FOREIGN KEY (subcategory_id) REFERENCES public."Subcategory"(subcategory_id);
+
+
+-- Completed on 2024-07-05 02:27:27 CDT
+
+--
+-- PostgreSQL database dump complete
+--
+
